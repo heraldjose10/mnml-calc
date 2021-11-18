@@ -1,0 +1,132 @@
+@font-face {
+    font-family: 'Landasans';
+    src: url('fonts/Landasans-Medium.woff2') format('woff2'), url('fonts/Landasans-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'LEMON MILK';
+    src: url('fonts/LEMONMILK-Light.woff2') format('woff2'), url('fonts/LEMONMILK-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+* {
+    box-sizing: inherit;
+}
+
+main {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+    box-sizing: border-box;
+}
+
+main h1 {
+    font-family: 'Landasans';
+    font-size: 50px;
+}
+
+.calculator-container {
+    height: 500px;
+    width: 300px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'LEMON MILK';
+}
+
+.display {
+    text-align: right;
+    font-size: 40px;
+}
+
+.keys {
+    flex: 4;
+}
+
+.calculator-container .display {
+    margin: 10px;
+    width: 280px;
+    flex: 1;
+}
+
+.calculator-container .keys {
+    flex: 8;
+    margin: 10px;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* button styles */
+
+.main-keys {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    gap: 5%;
+    align-items: flex-end;
+    margin-bottom: 15px;
+}
+
+.big {
+    flex: 34.5;
+    height: 40px;
+}
+
+.division {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+}
+
+.main-keys .small {
+    flex: 25;
+    height: 40px;
+    width: 100%;
+}
+
+.small-keys {
+    flex: 6;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 5%;
+}
+
+.small {
+    flex: 1 0 20%;
+    height: 40px;
+}
+
+
+/* buttons styles */
+
+.calculator-container button {
+    background-color: cadetblue;
+    color: white;
+    box-shadow: 5px 5px wheat;
+    border-radius: 10px;
+    border: none;
+    font-size: 20px;
+}
+
+.calculator-container button:active {
+    box-shadow: 5px 3px wheat;
+    transform: translateY(2px);
+}
+
+@media screen and (max-height:800px) {
+    main {
+        margin: 0;
+    }
+}
