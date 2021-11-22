@@ -41,19 +41,30 @@ main h1 {
     font-family: 'LEMON MILK';
 }
 
-.display {
-    text-align: right;
-    font-size: 40px;
-}
-
 .keys {
     flex: 4;
 }
 
+
+/* display styles */
+
 .calculator-container .display {
+    text-align: right;
+    font-size: 40px;
     margin: 10px;
     width: 280px;
     flex: 1;
+}
+
+.display .main {
+    margin: 0;
+    height: 54px;
+}
+
+.display .second {
+    font-size: 24px;
+    margin-bottom: 0;
+    height: 30px;
 }
 
 .calculator-container .keys {
@@ -107,9 +118,6 @@ main h1 {
     flex: 1 0 20%;
     height: 40px;
 }
-
-
-/* buttons styles */
 
 .calculator-container button {
     background-color: cadetblue;
