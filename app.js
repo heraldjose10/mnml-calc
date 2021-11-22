@@ -2,15 +2,30 @@ function showResult() {
 
     firstNumber = String(firstNumber);
     let totalAllowedCharacters = 10;
-    if (firstNumber.indexOf('.') >= 0) {
-        splitNumber = firstNumber.split('.');
-        decimalsRequired = totalAllowedCharacters - 1 - splitNumber[0].length;
-        roundedDecimal = roundNumber('.'.concat(splitNumber[1]), decimalsRequired);
+
+    if (firstNumber.indexOf('.') >= 0 && firstNumber.indexOf('e') < 0) {
+        let splitNumber = firstNumber.split('.');
+        let decimalsRequired = totalAllowedCharacters - 1 - splitNumber[0].length;
+        let roundedDecimal = roundNumber('.'.concat(splitNumber[1]), decimalsRequired);
         firstNumber = splitNumber[0] + '.' + roundedDecimal;
     }
+
+    if (firstNumber.length > 10) {
+        let spaceForWholeNumber = totalAllowedCharacters - 2;
+        let numberAfterE = firstNumber.length - 8;
+        let wholeNumberToRound = firstNumber.slice(0, 8);
+        let wholeNumber = roundNumber('.'.concat(wholeNumberToRound), spaceForWholeNumber);
+        firstNumber = wholeNumber + 'E' + String(numberAfterE);
+    }
+
     displayOnMainDisplay = firstNumber + operand + secondNumber;
     calculatorSecondDisplay.innerText = '';
     calculatorMainDisplay.innerText = (displayOnMainDisplay);
+}
+
+
+function showOnMainDisplay() {
+    calculatorMainDisplay.innerText = firstNumber;
 }
 
 function showResultOnSecondary() {
@@ -29,7 +44,7 @@ function roundNumber(numberToRound, decimalsRequired) {
 function handleNumberPress(e) {
     if (appendToFirstNumber) {
         firstNumber += this.textContent
-        showResult();
+        showOnMainDisplay();
     }
     else {
         if (operand) {
@@ -119,13 +134,43 @@ function deleteNumber() {
     }
     else if (!operand) {
         firstNumber = String(firstNumber).slice(0, String(firstNumber).length - 1);
-        showResult();
+        showOnMainDisplay();
     }
 
 }
 
 
-clearAll();
+function handleDecimalPress() {
+    if (appendToFirstNumber) {
+        let firstNumberSplit = firstNumber.split('.');
+        if (firstNumberSplit.length >= 2) {
+            return;
+        }
+        else {
+            firstNumber += '.';
+            showOnMainDisplay();
+        }
+    }
+    else {
+        if (operand) {
+            let secondNumberSplit = secondNumber.split(',');
+            if (secondNumberSplit.length >= 2) {
+                return;
+            }
+            else {
+                secondNumber += '.';
+                showResultOnSecondary();
+            }
+        }
+    }
+}
+
+
+let firstNumber = '';
+let secondNumber = '';
+let operand = '';
+let appendToFirstNumber = true;
+
 
 const calculatorMainDisplay = document.querySelector('.display').querySelector('.main');
 const calculatorSecondDisplay = document.querySelector('.display').querySelector('.second');
@@ -148,3 +193,6 @@ allClearButton.addEventListener('click', handleAllClear);
 
 const backButton = document.querySelector('.back-button');
 backButton.addEventListener('click', deleteNumber);
+
+const decimalButton = document.querySelector('.decimal');
+decimalButton.addEventListener('click', handleDecimalPress);
