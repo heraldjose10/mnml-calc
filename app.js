@@ -41,18 +41,18 @@ function roundNumber(numberToRound, decimalsRequired) {
 }
 
 
-function handleNumberPress(e) {
+function handleNumberPress(numberPressed) {
     if (appendToFirstNumber) {
-        firstNumber += this.textContent
+        firstNumber += numberPressed;
         showOnMainDisplay();
     }
     else {
         if (operand) {
-            secondNumber += this.textContent;
-            showResultOnSecondary(); //change
+            secondNumber += numberPressed
+            showResultOnSecondary();
         }
         else {
-            firstNumber = this.textContent;
+            firstNumber = numberPressed;
             appendToFirstNumber = true;
             showResult()
         }
@@ -61,16 +61,16 @@ function handleNumberPress(e) {
 }
 
 
-function handleOperandPress(e) {
+function handleOperandPress(operandPressed) {
     if (firstNumber) {
         if (secondNumber) {
             calculateExpression();
-            operand = this.textContent;
-            showResultOnSecondary();//change to new fun
+            operand = operandPressed;
+            showResultOnSecondary();
         }
         else {
-            operand = this.textContent;
-            showResultOnSecondary();//change
+            operand = operandPressed;
+            showResultOnSecondary();
             appendToFirstNumber = false;
         }
     }
@@ -166,6 +166,33 @@ function handleDecimalPress() {
 }
 
 
+function handleKeyPress(e) {
+
+    if (e.key <= 9 && e.key >= 0 && e.key != ' ') {
+        handleNumberPress(e.key)
+    }
+
+    else if (e.key == 'Backspace' || e.key == 'Delete') {
+        deleteNumber();
+    }
+
+    else if (e.key == '.') {
+        handleDecimalPress();
+    }
+
+    else if (e.key == 'Enter' || e.key == '=') {
+        calculateExpression();
+    }
+
+    else {
+        let operands = ['/', '*', '-', '+']
+        if (operands.indexOf(e.key) >= 0) {
+            handleOperandPress(e.key);
+        }
+    }
+}
+
+
 let firstNumber = '';
 let secondNumber = '';
 let operand = '';
@@ -177,12 +204,16 @@ const calculatorSecondDisplay = document.querySelector('.display').querySelector
 
 const numberKeys = document.querySelectorAll('.number');
 numberKeys.forEach(key => {
-    key.addEventListener('click', handleNumberPress);
+    key.addEventListener('click', (e) => {
+        handleNumberPress(e.target.textContent);
+    });
 });
 
 const operandKeys = document.querySelectorAll('.operand');
 operandKeys.forEach(key => {
-    key.addEventListener('click', handleOperandPress)
+    key.addEventListener('click', () => {
+        handleOperandPress(e.target.textContent);
+    });
 });
 
 const equalsToButton = document.querySelector('.equalto');
@@ -196,3 +227,6 @@ backButton.addEventListener('click', deleteNumber);
 
 const decimalButton = document.querySelector('.decimal');
 decimalButton.addEventListener('click', handleDecimalPress);
+
+// add keyboard events
+window.addEventListener('keyup', handleKeyPress);
