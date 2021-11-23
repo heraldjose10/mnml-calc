@@ -11,11 +11,23 @@ function showResult() {
     }
 
     if (firstNumber.length > 10) {
-        let spaceForWholeNumber = totalAllowedCharacters - 2;
-        let numberAfterE = firstNumber.length - 8;
-        let wholeNumberToRound = firstNumber.slice(0, 8);
-        let wholeNumber = roundNumber('.'.concat(wholeNumberToRound), spaceForWholeNumber);
-        firstNumber = wholeNumber + 'E' + String(numberAfterE);
+
+        //if number is a negetive number
+        if (firstNumber[0] == '-') {
+            let spaceForWholeNumber = totalAllowedCharacters - 3;
+            let wholeNumberToRound = firstNumber.slice(1, 8);
+            let wholeNumber = roundNumber('.'.concat(wholeNumberToRound), spaceForWholeNumber);
+            let numberAfterE = firstNumber.length - wholeNumber.length - 1;
+            firstNumber = '-' + wholeNumber + 'E' + String(numberAfterE);
+        }
+
+        else {
+            let spaceForWholeNumber = totalAllowedCharacters - 2;
+            let wholeNumberToRound = firstNumber.slice(0, 8);
+            let wholeNumber = roundNumber('.'.concat(wholeNumberToRound), spaceForWholeNumber);
+            let numberAfterE = firstNumber.length - wholeNumber.length;
+            firstNumber = wholeNumber + 'E' + String(numberAfterE);
+        }
     }
 
     displayOnMainDisplay = firstNumber + operand + secondNumber;
@@ -153,7 +165,7 @@ function handleDecimalPress() {
     }
     else {
         if (operand) {
-            let secondNumberSplit = secondNumber.split(',');
+            let secondNumberSplit = secondNumber.split('.');
             if (secondNumberSplit.length >= 2) {
                 return;
             }
@@ -211,7 +223,7 @@ numberKeys.forEach(key => {
 
 const operandKeys = document.querySelectorAll('.operand');
 operandKeys.forEach(key => {
-    key.addEventListener('click', () => {
+    key.addEventListener('click', (e) => {
         handleOperandPress(e.target.textContent);
     });
 });
